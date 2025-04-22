@@ -1,0 +1,117 @@
+{}swagger-cadastro-usuario-admin.json
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API - Cadastro de Usuário Administrador do Sistema",
+    "version": "1.0.0",
+    "description": "API para cadastro de usuários com perfil Administrador no sistema da empresa GiselleAlmeidaFiuza."
+  },
+  "paths": {
+    "/api/usuarioAdm/cadastrar": {
+      "post": {
+        "summary": "Cadastro de Usuário Administrador do Sistema",
+        "description": "Realiza o cadastro de um novo usuário administrador do Sistema.",
+        "tags": ["UsuárioAdm"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NovoUsuarioAdministrador"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário administrador cadastrado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioAdministradorResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação ou dados inválidos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroResposta"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NovoUsuarioAdministrador": {
+        "type": "object",
+        "required": ["nomeCompleto", "cpf", "email", "senha"],
+        "properties": {
+          "nomeCompleto": {
+            "type": "string",
+			"description": "Não pode ser nulo ou vazio",
+            "example": "João da Silva"
+          },
+          "cpf": {
+            "type": "string",
+            "pattern": "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$",
+			"description": "Deve conter 11 dígitos numéricos e ser único (não pode já estar cadastrado)",
+            "example": "123.456.789-00"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+			"description": "Deve ser único, não pode ser nulo ou vazio, e deve ser um e-mail válido com @GiselleAlmeidaFiuza.com.br",
+            "example": "joao.silva@GiselleAlmeidaFiuza.com.br"
+          },
+          "senha": {
+            "type": "string",
+            "format": "password",
+            "description": "Deve conter de 10 a 15 caracteres, com letras maiúsculas, minúsculas, números e símbolos.",
+            "example": "S3nh@Segura2025"
+          }
+        }
+      },
+      "UsuarioAdministradorResposta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "nomeCompleto": {
+            "type": "string",
+            "example": "João da Silva"
+          },
+          "cpf": {
+            "type": "string",
+            "example": "123.456.789-00"
+          },
+          "email": {
+            "type": "string",
+            "example": "joao.silva@GiselleAlmeidaFIUZA.com.br"
+          },
+          "perfil": {
+            "type": "string",
+            "example": "ADMINISTRADOR"
+          }
+        }
+      },
+      "ErroResposta": {
+        "type": "object",
+        "properties": {
+          "erro": {
+            "type": "string",
+            "example": "CPF já cadastrado"
+          }
+        }
+      }
+    }
+  }
+}
